@@ -1,22 +1,37 @@
 package br.com.desafio.sulamerica.dominio.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import br.com.desafio.sulamerica.dominio.model.Exames;
+import br.com.desafio.sulamerica.dominio.model.Exame;
 import br.com.desafio.sulamerica.dominio.model.dto.ExameDTO;
+import br.com.desafio.sulamerica.dominio.repository.ExameRepository;
 
 @Service
-public class ExameService implements CrudAPIService<Exames, ExameDTO> {
+public class ExameService implements CrudAPIService<Exame, ExameDTO> {
+	@Autowired
+	private ExameRepository repository;
+	
+	@Autowired
+	private ModelMapper modelmapper;
 
 	public ResponseEntity<List<ExameDTO>> listar() {
-		return null;
+		List<Exame> exames = repository.findAll();
+
+		if (!exames.isEmpty()) {
+			List<ExameDTO> dto = toListDTO(exames);
+			return ResponseEntity.ok().body(dto);
+		}
+		return ResponseEntity.noContent().build();
 	}
 
 	@Override
-	public ResponseEntity<ExameDTO> cadastrar(Exames entity) {
+	public ResponseEntity<ExameDTO> cadastrar(Exame entity) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -34,21 +49,19 @@ public class ExameService implements CrudAPIService<Exames, ExameDTO> {
 	}
 
 	@Override
-	public ResponseEntity<ExameDTO> atualizar(Long id, Exames entity) {
+	public ResponseEntity<ExameDTO> atualizar(Long id, Exame entity) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ExameDTO toDTO(Exames entity) {
-		// TODO Auto-generated method stub
-		return null;
+	public ExameDTO toDTO(Exame exame) {
+		return modelmapper.map(exame, ExameDTO.class);
 	}
 
 	@Override
-	public List<ExameDTO> toListDTO(List<Exames> entity) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<ExameDTO> toListDTO(List<Exame> exames) {
+		return exames.stream().map(exame -> toDTO(exame)).collect(Collectors.toList());
 	}
 
 }
