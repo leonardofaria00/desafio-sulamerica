@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ExameDTO {
-	private Integer id;
+	private Long id;
 	private String nomeExame;
 	private String status;
 }
