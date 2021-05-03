@@ -2,6 +2,7 @@ package br.com.desafio.sulamerica.dominio.service;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -18,15 +19,15 @@ import br.com.desafio.sulamerica.dominio.repository.ExameRepository;
 public class ExameService implements CrudAPIService<Exame, ExameDTO> {
 	@Autowired
 	private ExameRepository repository;
-	
+
 	@Autowired
 	private ModelMapper modelmapper;
 
 	public ResponseEntity<List<ExameDTO>> listar() {
-		List<Exame> exames = repository.findAll();
+		List<Exame> exames = this.repository.findAll();
 
 		if (!exames.isEmpty()) {
-			List<ExameDTO> dto = toListDTO(exames);
+			List<ExameDTO> dto = this.toListDTO(exames);
 			return ResponseEntity.ok().body(dto);
 		}
 		return ResponseEntity.noContent().build();
@@ -43,8 +44,13 @@ public class ExameService implements CrudAPIService<Exame, ExameDTO> {
 
 	@Override
 	public ResponseEntity<ExameDTO> buscar(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		Optional<Exame> exame = this.repository.findById(id);
+
+		if (exame.isPresent()) {
+			ExameDTO dto = this.toDTO(exame.get());
+			return ResponseEntity.ok().body(dto);
+		}
+		return ResponseEntity.noContent().build();
 	}
 
 	@Override
@@ -66,7 +72,7 @@ public class ExameService implements CrudAPIService<Exame, ExameDTO> {
 
 	@Override
 	public List<ExameDTO> toListDTO(List<Exame> exames) {
-		return exames.stream().map(exame -> toDTO(exame)).collect(Collectors.toList());
+		return exames.stream().map(exame -> this.toDTO(exame)).collect(Collectors.toList());
 	}
 
 }
