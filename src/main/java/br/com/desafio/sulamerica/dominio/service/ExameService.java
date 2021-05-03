@@ -1,10 +1,12 @@
 package br.com.desafio.sulamerica.dominio.service;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -31,9 +33,12 @@ public class ExameService implements CrudAPIService<Exame, ExameDTO> {
 	}
 
 	@Override
-	public ResponseEntity<ExameDTO> cadastrar(Exame entity) {
-		// TODO Auto-generated method stub
-		return null;
+	public ResponseEntity<ExameDTO> cadastrar(Exame exame) {
+		exame.setDataCadastro(OffsetDateTime.now());
+
+		repository.save(exame);
+
+		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
 
 	@Override
