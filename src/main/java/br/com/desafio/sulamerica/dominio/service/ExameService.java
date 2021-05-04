@@ -36,9 +36,12 @@ public class ExameService implements CrudAPIService<Exame, ExameDTO> {
 
 	@Override
 	public ResponseEntity<ExameDTO> cadastrar(Exame exame) throws Exception {
-		exame.setDataCadastro(OffsetDateTime.now());
+		if (exame.getNomeExame().isEmpty()) {
+			throw new ExameException("Não é permitido cadastro sem nome do Exame.");
+		}
 
 		try {
+			exame.setDataCadastro(OffsetDateTime.now());
 			repository.save(exame);
 		} catch (Exception e) {
 			throw new ExameException("Erro ao Cadastrar o exame.");
@@ -65,9 +68,13 @@ public class ExameService implements CrudAPIService<Exame, ExameDTO> {
 	}
 
 	@Override
-	public ResponseEntity<ExameDTO> atualizar(Long id, Exame entity) {
-		// TODO Auto-generated method stub
-		return null;
+	public ResponseEntity<ExameDTO> atualizar(Long id, Exame exame) {
+		if (repository.existsById(id)) {
+			exame.setId(id);
+			repository.save(exame);
+			return ResponseEntity.status(HttpStatus.OK).build();// Demostrando outras formas de implementar
+		}
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();// Demostrando outras formas de implementar
 	}
 
 	@Override

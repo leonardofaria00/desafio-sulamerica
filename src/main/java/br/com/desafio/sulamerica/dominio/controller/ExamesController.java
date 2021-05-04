@@ -8,6 +8,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,6 +37,11 @@ public class ExamesController {
 	@GetMapping("/{id}")
 	public ResponseEntity<ExameDTO> buscarExame(@PathVariable Long id) {
 		return service.buscar(id);
+	}
+
+	@PutMapping("/{id}")
+	public ResponseEntity<ExameDTO> atualizarExame(@PathVariable Long id, @RequestBody Exame exame) {
+		return service.atualizar(id, exame);
 	}
 
 }
