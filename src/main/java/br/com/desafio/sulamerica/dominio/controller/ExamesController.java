@@ -19,7 +19,14 @@ import com.sun.istack.NotNull;
 import br.com.desafio.sulamerica.dominio.model.Exame;
 import br.com.desafio.sulamerica.dominio.model.dto.ExameDTO;
 import br.com.desafio.sulamerica.dominio.service.ExameService;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
+@ApiResponses(value = {
+	    @ApiResponse(code = 200, message = "Retorna a lista de exames"),
+	    @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
+	    @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
+	})
 @RestController
 @RequestMapping(path = "/exames")
 public class ExamesController {
