@@ -8,7 +8,7 @@ public interface CrudAPIService<E, DTO> {
 
 	ResponseEntity<List<DTO>> listar();
 
-	ResponseEntity<DTO> cadastrar(E entity);
+	ResponseEntity<DTO> cadastrar(E entity) throws Exception;
 
 	ResponseEntity<DTO> buscar(Long id);
 

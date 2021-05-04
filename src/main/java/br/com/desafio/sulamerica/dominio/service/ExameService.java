@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import br.com.desafio.sulamerica.dominio.exception.ExameException;
 import br.com.desafio.sulamerica.dominio.model.Exame;
 import br.com.desafio.sulamerica.dominio.model.dto.ExameDTO;
 import br.com.desafio.sulamerica.dominio.repository.ExameRepository;
@@ -34,10 +35,14 @@ public class ExameService implements CrudAPIService<Exame, ExameDTO> {
 	}
 
 	@Override
-	public ResponseEntity<ExameDTO> cadastrar(Exame exame) {
+	public ResponseEntity<ExameDTO> cadastrar(Exame exame) throws Exception {
 		exame.setDataCadastro(OffsetDateTime.now());
 
-		repository.save(exame);
+		try {
+			repository.save(exame);
+		} catch (Exception e) {
+			throw new ExameException("Erro ao Cadastrar o exame.");
+		}
 
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}

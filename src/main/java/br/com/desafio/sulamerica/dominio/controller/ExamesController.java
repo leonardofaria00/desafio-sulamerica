@@ -29,7 +29,7 @@ public class ExamesController {
 	}
 
 	@PostMapping
-	public ResponseEntity<ExameDTO> cadastrarExame(@Validated @RequestBody Exame exame) {
+	public ResponseEntity<ExameDTO> cadastrarExame(@Validated @RequestBody Exame exame) throws Exception {
 		return service.cadastrar(exame);
 	}
 
