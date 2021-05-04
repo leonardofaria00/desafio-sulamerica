@@ -42,7 +42,7 @@ public class ExameService implements CrudAPIService<Exame, ExameDTO> {
 
 		try {
 			exame.setDataCadastro(OffsetDateTime.now());
-			repository.save(exame);
+			this.repository.save(exame);
 		} catch (Exception e) {
 			throw new ExameException("Erro ao Cadastrar o exame.");
 		}
@@ -62,12 +62,6 @@ public class ExameService implements CrudAPIService<Exame, ExameDTO> {
 	}
 
 	@Override
-	public ResponseEntity<Void> remover(Long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public ResponseEntity<ExameDTO> atualizar(Long id, Exame exame) {
 		if (repository.existsById(id)) {
 			exame.setId(id);
@@ -78,8 +72,19 @@ public class ExameService implements CrudAPIService<Exame, ExameDTO> {
 	}
 
 	@Override
+	public ResponseEntity<Void> remover(Long id) throws Exception {
+		try {
+			this.repository.deleteById(id);
+		} catch (Exception e) {
+			throw new ExameException("Exame não encontrado!");
+		}
+
+		return ResponseEntity.noContent().build();
+	}
+
+	@Override
 	public ExameDTO toDTO(Exame exame) {
-		return modelmapper.map(exame, ExameDTO.class);
+		return this.modelmapper.map(exame, ExameDTO.class);
 	}
 
 	@Override

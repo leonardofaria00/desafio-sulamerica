@@ -12,9 +12,9 @@ public interface CrudAPIService<E, DTO> {
 
 	ResponseEntity<DTO> buscar(Long id);
 
-	ResponseEntity<Void> remover(Long id);
-
 	ResponseEntity<DTO> atualizar(Long id, E entity);
+
+	ResponseEntity<Void> remover(Long id) throws Exception;
 
 	DTO toDTO(E entity);
 
